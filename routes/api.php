@@ -4,7 +4,7 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->get('/user', function () {
+    return Auth::user();
 });
 
 Route::controller(UserController::class)->group(function () {
@@ -26,6 +26,9 @@ Route::controller(UserController::class)->group(function () {
     Route::post('/user', 'store');  // Store new user
     Route::put('/user/{id}', 'update');  // Update user by ID
     Route::delete('/user/{id}', 'destroy');  // Delete user by ID
+    Route::post('/register',  'register');
+    Route::post('/login', 'login');
+    Route::post('/logout',  'logout');
 });
 Route::controller(TaskController::class)->group(function () {
     Route::get('/task', 'index');  // Get all tasks

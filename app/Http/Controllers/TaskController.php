@@ -28,9 +28,9 @@ class TaskController extends Controller
     public function store(TaskRequest $request)
     {
         $validate = $request ->validated();
-        $users = TaskModel::create($validate);
+        $tasks = TaskModel::create($validate);
 
-        return $users;
+        return $tasks;
     }
 
     /**
@@ -54,10 +54,10 @@ class TaskController extends Controller
     public function update(TaskRequest $request, $id)
     {
         $validate = $request ->validated();
-        $users = TaskModel::findOrFail($id)
+        $tasks = TaskModel::findOrFail($id)
         ->update($validate);
 
-        return $users;
+        return $tasks;
     }
 
     /**
@@ -68,9 +68,9 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        $users = TaskModel::findOrFail($id);
-        $users -> delete();
+        $tasks = TaskModel::findOrFail($id);
+        $tasks -> delete();
 
-        return $users;
+        return $tasks;
     }
 }

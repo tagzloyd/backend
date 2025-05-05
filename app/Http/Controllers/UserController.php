@@ -76,30 +76,34 @@ class UserController extends Controller
         return $users;
     }
     // Registration method
-    public function register(UserRequest $request)
-    {
-        $validated = $request->validated();
+    // public function register(UserRequest $request)
+    // {
+    //     $validated = $request->validated();
 
-        // Create the user (no password field needed)
-        $user = UserModel::create($validated);
+    //     // Create the user (no password field needed)
+    //     $user = UserModel::create($validated);
 
-        // Log the user in (if necessary)
-        Auth::login($user);
+    //     // Log the user in (if necessary)
+    //     Auth::login($user);
 
-        return response()->json(['message' => 'User registered successfully!']);
-    }
+    //     return response()->json(['message' => 'User registered successfully!']);
+    // }
 
     // Login method (without password)
     public function login(Request $request)
     {
-        $credentials = $request->only('email');
+        $credentials = $request->only('email');  // Getting only email from the request
 
-        // Check if user exists and log them in
         $user = UserModel::where('email', $credentials['email'])->first();
 
         if ($user) {
-            Auth::login($user);
-            return response()->json(['message' => 'Login successful!']);
+            // Optionally store the user info in session or any custom session handling
+            session(['user' => $user]);
+
+            return response()->json([
+                'message' => 'Login successful!',
+                'user' => $user // Return user details here
+            ]);
         }
 
         return response()->json(['message' => 'Invalid credentials.'], 401);
